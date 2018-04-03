@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="StravaGPX Android" version="1.1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+ <metadata>
+  <time>2016-08-19T07:35:22Z</time>
+ </metadata>
+ <trk>
+  <name>Morning Ride</name>
+  <trkseg>
+   <trkpt lat="51.0604810" lon="-1.3285470">
+    <ele>74.4</ele>
+    <time>2016-08-19T07:35:22Z</time>
+   </trkpt>
+   <trkpt lat="51.0604530" lon="-1.3285570">
+    <ele>73.9</ele>
+    <time>2016-08-19T07:35:58Z</time>
+   </trkpt>
+   <trkpt lat="51.0604870" lon="-1.3285300">
+    <ele>74.4</ele>
+    <time>2016-08-19T07:36:01Z</time>
+   </trkpt>
+   <trkpt lat="51.0604960" lon="-1.3285850">
+    <ele>74.7</ele>
+    <time>2016-08-19T07:36:05Z</time>
+   </trkpt>
+   <trkpt lat="51.0604860" lon="-1.3286260">
+    <ele>74.7</ele>
+    <time>2016-08-19T07:36:08Z</time>
+   </trkpt>
+  </trkseg>
+ </trk>
+</gpx>
