@@ -8,7 +8,7 @@ import json
 path = './data/'
 
 mass = 78
-bike_mass = 4.6
+bike_mass = 10.0
 t_m = mass + bike_mass
 g = 9.81
 area = 0.4
@@ -93,7 +93,7 @@ def power_curve(data):
 if __name__ == '__main__':
 	data = []
 
-	for file in tqdm(sorted(os.listdir(path))):
+	for file in tqdm(sorted(os.listdir(path))[::-1]	):
 		gpx_file = open(path+file,'r')
 		data.append(make_json_data(gpxpy.parse(gpx_file)))
 		data[-1] = add_power_to_json(data[-1])
@@ -115,14 +115,16 @@ if __name__ == '__main__':
 	plt.rcParams['xtick.color'] = 'white'
 	plt.rcParams['ytick.color'] = 'white'
 	show_recent = True
+	color = 'limegreen'
 	for i,datum in enumerate(tqdm(data)):
 		powers, times = power_curve(datum)
 		all_powers.extend(powers)
 		all_times.extend(times)
 		if show_recent:
-			plt.semilogx(times,powers,color = 'deepskyblue',alpha = 0.1+0.9*1.2**i/1.2**len(data),markersize=3)
+			plt.semilogx(times,powers,color=color,alpha = 0.1+0.9*1.2**(len(data)-i)/1.2**len(data),markersize=3)
 		else:
-			plt.semilogx(times,powers,color='deepskyblue',markersize=3)
+			plt.semilogx(times,powers,color=color,alpha = 0.7,markersize=3)
+		color = 'deepskyblue'
 	plt.xlabel('Time')
 	plt.ylabel('Power / $W kg^{-1}$')
 	plt.xticks([5,10,30,60,120,300,600,1200],['5s','10s','30s','1min','2min','5min','10min','20min'])
