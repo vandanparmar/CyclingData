@@ -76,12 +76,14 @@ def power_curve(data):
 		smoothed = smooth(power, box_pts)
 		p = np.max(smoothed)
 		arg = np.argmax(smoothed)
-		if arg-box_pts<0:
+		min_arg = arg -  int(np.ceil(box_pts/2))
+		max_arg  = arg + int(np.floor(box_pts/2))
+		if min_arg < 0:
 			min_arg = 0
-		else:
-			min_arg = arg-box_pts
-		time = (ts[arg]-ts[min_arg]).total_seconds()
-		if(time>1500):
+		if max_arg > len(smoothed)-1:
+			max_arg = len(smoothed)-1
+		time = (ts[max_arg]-ts[min_arg]).total_seconds()
+		if(time>1260):
 			break
 
 		times.append(time)

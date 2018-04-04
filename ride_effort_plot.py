@@ -29,9 +29,9 @@ filename = 'data/20180403-114523-Ride.gpx'
 
 power_curve  = np.array(json.load(open('power_curve_vp.json','r'))['power_curve'][::-1])
 
-box_pts_list = [5,60,300,1200]
+box_pts_list = [5,60,300,900]
 
-time_names = ['5s','1min','5min','20min']
+time_names = ['5s','1min','5min','15min']
 
 
 def add_powers(data,box_pts_list):
@@ -40,8 +40,11 @@ def add_powers(data,box_pts_list):
 	all_prop_powers = []
 	for box_pts in box_pts_list:
 		smoothed = power_curve_gen.smooth(power,box_pts)
-		padded = [ts[0]]*box_pts + list(ts[:-box_pts])
-		times = ts - padded
+		box_pts_left = int(np.ceil(box_pts/2))
+		box_pts_right = int(np.floor(box_pts/2))
+		pad_left = np.array([ts[0]]*box_pts_left + list(ts[:-box_pts_left]))
+		pad_right = np.array(list(ts[box_pts_right:]) + [ts[-1]]*box_pts_right)
+		times = pad_right-pad_left
 		times = list(map(lambda x : x.total_seconds(),times))[:-2]
 		print(np.mean(times),np.max(times))
 		max_powers = max_power(np.array(times))
@@ -74,13 +77,13 @@ for i,ax in enumerate(axes):
 		ax.plot(distance,vs*2.237,color='deepskyblue')
 		ax.set_ylabel('Speed / $mph	$')
 	elif i==1:
-		ax.plot(distance,elev,color='deepskyblue')
+		ax.plot(distance,elev,color='limegreen')
 		ax.set_ylabel('Elevation / $m$')
 	else:
 		y_data = np.array(json_data['prop_powers']).T[:,i-2]
 		points = np.array([distance, y_data]).T.reshape(-1, 1, 2)
 		segments = np.concatenate([points[:-1], points[1:]], axis=1)
-		norm = plt.Normalize(0,1)
+		norm = plt.Normalize(0,0.9)
 		lc = LineCollection(segments,norm=norm,cmap = 'magma')
 		lc.set_array(y_data)
 		ax.add_collection(lc)
