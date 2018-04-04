@@ -43,6 +43,7 @@ def add_powers(data,box_pts_list):
 		padded = [ts[0]]*box_pts + list(ts[:-box_pts])
 		times = ts - padded
 		times = list(map(lambda x : x.total_seconds(),times))[:-2]
+		print(np.mean(times),np.max(times))
 		max_powers = max_power(np.array(times))
 		prop_powers = smoothed/max_powers
 		all_prop_powers.append(prop_powers)
@@ -61,8 +62,9 @@ json_data = add_powers(json_data,box_pts_list)
 
 
 distance = np.cumsum(json_data['ds'])[:-1]/1609
+# distance = list(map(lambda x: x.total_seconds(),json_data['ts'][:-2]-json_data['ts'][0]))
 elev = np.cumsum(json_data['d_elev'])[:-1]
-vs = json_data['rough_vs'][:-1]
+vs = json_data['vs'][:-1]
 
 
 fig,axes = plt.subplots(nrows = 2+len(box_pts_list),sharex=True)
@@ -73,7 +75,7 @@ for i,ax in enumerate(axes):
 		ax.set_ylabel('Speed / $mph	$')
 	elif i==1:
 		ax.plot(distance,elev,color='deepskyblue')
-		ax.set_ylabel('Elevation Change / $m$')
+		ax.set_ylabel('Elevation / $m$')
 	else:
 		y_data = np.array(json_data['prop_powers']).T[:,i-2]
 		points = np.array([distance, y_data]).T.reshape(-1, 1, 2)
@@ -85,7 +87,7 @@ for i,ax in enumerate(axes):
 		ax.set_ylabel(time_names[i-2]+' effort')
 		ax1 = ax.twinx()
 		ax1.set_yticks([]) 
-		ax1.plot(distance,elev,color='deepskyblue',alpha=0.3)
+		ax1.plot(distance,elev,color='limegreen',alpha=0.3)
 		ax2 = ax.twinx()
 		ax2.set_yticks([])
 		ax2.plot(distance,vs*2.237,color='deepskyblue',alpha=0.3)
